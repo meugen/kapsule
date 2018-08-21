@@ -14,7 +14,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
+import space.traversal.kapsule.Injects
 import space.traversal.kapsule.demo.data.MainDao
+import space.traversal.kapsule.required
 
 class MainAndroidModule(val context: Context) : AndroidModule {
 
@@ -23,7 +25,9 @@ class MainAndroidModule(val context: Context) : AndroidModule {
     override val sharedPreferences: SharedPreferences get() = PreferenceManager.getDefaultSharedPreferences(context)
 }
 
-class MainDataModule(val context: Context) : DataModule {
+class MainDataModule: DataModule, Injects<AndroidModule> {
 
-    override val dao get() = MainDao(context)
+    private val prefs by required { sharedPreferences }
+
+    override val dao get() = MainDao(prefs)
 }

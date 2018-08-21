@@ -30,11 +30,12 @@ open class App : Application() {
         fun module(context: Context) = (context.applicationContext as App).module
     }
 
-    @Suppress("LeakingThis")
-    private val module = createModule()
+    private lateinit var module: Module
 
-    open protected fun createModule() = Module(
-            android = MainAndroidModule(this),
-            data = MainDataModule(this))
-            .transitive()
+    override fun onCreate() {
+        super.onCreate()
+        module = Module(
+                android = MainAndroidModule(this),
+                data = MainDataModule()).transitive()
+    }
 }

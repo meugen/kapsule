@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import space.traversal.kapsule.HasModules
 import space.traversal.kapsule.Injects
 import space.traversal.kapsule.demo.App
 import space.traversal.kapsule.demo.R
@@ -26,7 +25,6 @@ import space.traversal.kapsule.demo.di.Module
 import space.traversal.kapsule.demo.presenter.HomePresenter
 import space.traversal.kapsule.demo.presenter.HomePresenterImpl
 import space.traversal.kapsule.demo.presenter.HomeView
-import space.traversal.kapsule.demo.presenter.Presenter
 import space.traversal.kapsule.inject
 import space.traversal.kapsule.required
 
@@ -85,10 +83,7 @@ class HomeActivity : AppCompatActivity(), HomeView, Injects<HomeActivityModule> 
 
 class HomeActivityModule(parent: Module):
         AndroidModule by parent,
-        DataModule by parent,
-        HasModules {
-
-    override val modules = setOf(parent)
+        DataModule by parent {
 
     val presenter: HomePresenter
             get() = HomePresenterImpl(dao)

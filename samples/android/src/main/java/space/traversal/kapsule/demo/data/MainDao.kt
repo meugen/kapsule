@@ -10,27 +10,14 @@
 
 package space.traversal.kapsule.demo.data
 
-import android.content.Context
-import space.traversal.kapsule.Injects
-import space.traversal.kapsule.demo.App
-import space.traversal.kapsule.demo.di.Module
-import space.traversal.kapsule.inject
-import space.traversal.kapsule.required
+import android.content.SharedPreferences
+
+private const val KEY_COUNT = "count"
 
 /**
  * Main implementation of [Dao].
  */
-class MainDao(context: Context) : Dao, Injects<Module> {
-
-    private companion object {
-        private val KEY_COUNT = "count"
-    }
-
-    private val prefs by required { sharedPreferences }
-
-    init {
-        inject(App.module(context))
-    }
+class MainDao(private val prefs: SharedPreferences) : Dao {
 
     override fun fetchCount() = prefs.getInt(KEY_COUNT, 0)
 

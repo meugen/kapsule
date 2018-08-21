@@ -40,7 +40,7 @@ fun <M : HasModules> M.transitive(): M {
             (submodule as? Injects<M>)?.inject(this)
             (submodule as? HasModules)?.let { queue.addAll(it.modules) }
         } catch (e: ClassCastException) {
-            throw TransitiveInjectionException(submodule::class.java)
+            throw TransitiveInjectionException(e, submodule::class.java)
         }
     }
     return this
@@ -52,4 +52,4 @@ fun <M : HasModules> M.transitive(): M {
  *
  * @param
  */
-class TransitiveInjectionException(clazz: Class<*>) : ClassCastException("Unexpected transitive injection: ${clazz.name}")
+class TransitiveInjectionException(e: Exception, clazz: Class<*>) : RuntimeException("Unexpected transitive injection: ${clazz.name}", e)

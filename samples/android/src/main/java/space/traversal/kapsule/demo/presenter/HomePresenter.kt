@@ -10,9 +10,7 @@
 
 package space.traversal.kapsule.demo.presenter
 
-import space.traversal.kapsule.Injects
 import space.traversal.kapsule.demo.data.Dao
-import space.traversal.kapsule.demo.di.Module
 
 /**
  * Presenter for home screen.
