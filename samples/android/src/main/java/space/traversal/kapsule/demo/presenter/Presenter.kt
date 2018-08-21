@@ -10,33 +10,42 @@
 
 package space.traversal.kapsule.demo.presenter
 
+abstract class BasePresenter<V: View>: Presenter<V> {
+
+    private var v: V? = null
+
+    override fun applyView(f: V.() -> Unit) {
+        v?.f()
+    }
+
+    override fun attach(v: V) {
+        this.v = v
+    }
+
+    override fun detach() {
+        this.v = null
+    }
+}
+
 /**
  * Base MVP presenter to extend.
  */
-abstract class Presenter<V : View> {
-
-    protected var view: V? = null
+interface Presenter<V : View> {
 
     /**
      * Attaches new view.
      */
-    open fun attach(v: V) {
-        view = v
-    }
+    fun attach(v: V)
 
     /**
      * Detaches existing view.
      */
-    open fun detach() {
-        view = null
-    }
+    fun detach()
 
     /**
      * Applies function to a view.
      */
-    fun applyView(f: V.() -> Unit) {
-        view?.f()
-    }
+    fun applyView(f: V.() -> Unit)
 }
 
 /**

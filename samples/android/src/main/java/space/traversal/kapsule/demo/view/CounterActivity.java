@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
 import kotlin.jvm.functions.Function1;
 import space.traversal.kapsule.Delegate;
 import space.traversal.kapsule.Kapsule;

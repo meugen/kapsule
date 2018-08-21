@@ -15,9 +15,9 @@ apply plugin: 'kotlin'
 mainClassName = 'space.traversal.kapsule.demo.DemoKt'
 
 dependencies {
-    compile project(':kapsule-core')
+    implementation project(':kapsule-core')
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    testCompile "junit:junit:$junit_version"
+    testImplementation "junit:junit:$junit_version"
 }

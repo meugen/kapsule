@@ -10,28 +10,19 @@
 
 package space.traversal.kapsule.demo.presenter
 
-import android.content.Context
 import space.traversal.kapsule.Injects
-import space.traversal.kapsule.demo.App
+import space.traversal.kapsule.demo.data.Dao
 import space.traversal.kapsule.demo.di.Module
-import space.traversal.kapsule.inject
-import space.traversal.kapsule.required
 
 /**
  * Presenter for home screen.
  */
-class HomePresenter(context: Context) : Presenter<HomeView>(), Injects<Module> {
-
-    private val dao by required { dao }
-
-    init {
-        inject(App.module(context))
-    }
+class HomePresenterImpl(private val dao: Dao) : BasePresenter<HomeView>(), HomePresenter {
 
     /**
      * Loads initial count and refreshes view.
      */
-    fun load() {
+    override fun load() {
         val count = dao.fetchCount()
         applyView { updateCount(count) }
     }
@@ -39,11 +30,18 @@ class HomePresenter(context: Context) : Presenter<HomeView>(), Injects<Module> {
     /**
      * Updates count with delta and refreshes view.
      */
-    fun update(delta: Int) {
+    override fun update(delta: Int) {
         val count = Math.min(Math.max(dao.fetchCount() + delta, 0), 5)
         dao.persistCount(count)
         applyView { updateCount(count) }
     }
+}
+
+interface HomePresenter: Presenter<HomeView> {
+
+    fun load()
+
+    fun update(delta: Int)
 }
 
 /**

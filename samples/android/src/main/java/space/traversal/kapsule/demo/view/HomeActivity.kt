@@ -16,30 +16,34 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import space.traversal.kapsule.HasModules
 import space.traversal.kapsule.Injects
 import space.traversal.kapsule.demo.App
 import space.traversal.kapsule.demo.R
+import space.traversal.kapsule.demo.di.AndroidModule
+import space.traversal.kapsule.demo.di.DataModule
 import space.traversal.kapsule.demo.di.Module
 import space.traversal.kapsule.demo.presenter.HomePresenter
+import space.traversal.kapsule.demo.presenter.HomePresenterImpl
 import space.traversal.kapsule.demo.presenter.HomeView
+import space.traversal.kapsule.demo.presenter.Presenter
 import space.traversal.kapsule.inject
 import space.traversal.kapsule.required
 
 /**
  * View for [HomePresenter].
  */
-class HomeActivity : AppCompatActivity(), HomeView, Injects<Module> {
+class HomeActivity : AppCompatActivity(), HomeView, Injects<HomeActivityModule> {
 
     private val inflater by required { layoutInflater }
-
-    private lateinit var presenter: HomePresenter
+    private val presenter by required { presenter }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        inject(App.module(this))
+        inject(HomeActivityModule(App.module(this)))
 
-        presenter = HomePresenter(this).also { it.attach(this) }
+        presenter.attach(this)
 
         btn_add.setOnClickListener { presenter.update(+1) }
         btn_remove.setOnClickListener { presenter.update(-1) }
@@ -77,4 +81,15 @@ class HomeActivity : AppCompatActivity(), HomeView, Injects<Module> {
             }
         }
     }
+}
+
+class HomeActivityModule(parent: Module):
+        AndroidModule by parent,
+        DataModule by parent,
+        HasModules {
+
+    override val modules = setOf(parent)
+
+    val presenter: HomePresenter
+            get() = HomePresenterImpl(dao)
 }

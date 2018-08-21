@@ -40,7 +40,7 @@ class HomePresenterTest {
             }
 
         }
-        val presenter = HomePresenter(RuntimeEnvironment.application).also { it.attach(view) }
+        val presenter = HomePresenterImpl(dao).also { it.attach(view) }
         dao.persistCount(3)
         presenter.load()
         assertEquals(3, updatedViewCount)
@@ -54,7 +54,7 @@ class HomePresenterTest {
             }
 
         }
-        val presenter = HomePresenter(RuntimeEnvironment.application).also { it.attach(view) }
+        val presenter = HomePresenterImpl(dao).also { it.attach(view) }
         dao.persistCount(3)
         presenter.load()
         presenter.update(+1)
@@ -69,7 +69,7 @@ class HomePresenterTest {
             }
 
         }
-        val presenter = HomePresenter(RuntimeEnvironment.application).also { it.attach(view) }
+        val presenter = HomePresenterImpl(dao).also { it.attach(view) }
         dao.persistCount(3)
         presenter.load()
         presenter.update(-1)
